@@ -79,7 +79,7 @@ cleandist  :
 
 .PHONY : clear
 clear :
-	@rm -rf \#* ${dependencies}
+	@rm -rf \#* ${dependencies} *~
 
 .PHONY: install-lib
 install-lib: $(libtarget) tags pkgfile uninstall
@@ -278,8 +278,9 @@ rules :
 	@echo "library     : generates the library"
 	@echo "tags        : generates etags files"
 	@echo "dox         : generates the doxygen documentation if Doxyfile exists"
+	@echo "clear       : cleans up *~ #* and dependencies"
 	@echo "clean       : cleans up .o lib and exe files"
-	@echo "cleanaux    : cleans auxilary files"
+	@echo "cleanaux    : cleans auxilary files: *.o *.d"
 	@echo "cleandox    : cleans up the documentation"
 	@echo "cleandist   : cleans everything except source+headers"
 	@echo "install     : installs the executable"
@@ -294,7 +295,6 @@ rules :
 	@echo "state       : show the configuration state of the package"
 	@echo "export      : export the makefile"
 	@echo "revert      : moves makefile.in to makefile"
-	@echo "clear       : clears #* & dependency files"
 	@echo
 
 .PHONY : comment
