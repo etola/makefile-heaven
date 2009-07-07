@@ -36,8 +36,8 @@ ifeq ($(profile),true)
   CXXFLAGS+= -pg
 endif
 
-dbg_flags = -g
-opt_flags = -O3 -DHAVE_INLINE -DGSL_RANGE_CHECK_OFF
+dbg_flags = -g -DDEBUG
+opt_flags = -O3 -DHAVE_INLINE -DGSL_RANGE_CHECK_OFF -DNDEBUG
 spc_flags = '-march=$(platform)' -mfpmath=sse
 
 ifeq ($(parallelize),true)
