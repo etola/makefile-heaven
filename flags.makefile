@@ -26,7 +26,7 @@ ifeq ($(sse),true)
     CPPFLAGS += -msse -msse2
 endif
 
-CXXFLAGS += -fno-strict-aliasing -Wall
+CXXFLAGS += -fno-strict-aliasing -Wall -fPIC
 
 ifeq ($(multi-threading),true)
     CXXFLAGS += -lpthread

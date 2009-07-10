@@ -1,21 +1,34 @@
-#........................................
+#
+# package & author info
+#
 packagename :=
 description :=
-version := 0.1
+major_version := 0
+minor_version := 1
+# version := major_version . minor_version # depracated
 author := Engin Tola
 licence := GPL v2.0 or higher distributed by FSF
-#........................................
+#
+# add you cpp cc files here
+#
 sources :=
-#........................................
+#
+# output info
+#
 installdir := /home/tola/usr
 external_sources :=
 external_libraries := kutility
 libdir := .
 srcdir := .
 includedir:= .
+#
+# custom flags
+#
 define_flags :=
 custom_ld_flags :=
-#........................................
+#
+# optimization & parallelization ?
+#
 optimize := true
 parallelize := false
 f77 := false

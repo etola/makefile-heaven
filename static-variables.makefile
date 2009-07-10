@@ -2,6 +2,17 @@
 ################# - MAKEFILE STATIC VARIABLES - ################################
 ################################################################################
 
+ifeq ($(major_version),)
+ major_version := 0
+endif
+ifeq ($(minor_version),)
+ minor_version := 1
+endif
+
+ifeq ($(version),)
+ version := $(major_version)"."$(minor_version)
+endif
+
 sources_list = $(addprefix $(srcdir)/, $(sources))
 
 objects       := $(filter %.o,$(subst   .c,.o,$(sources_list)))
@@ -9,7 +20,10 @@ objects       += $(filter %.o,$(subst  .cc,.o,$(sources_list)))
 objects       += $(filter %.o,$(subst .cpp,.o,$(sources_list)))
 dependencies  := $(subst .o,.d,$(objects))
 
-libtarget     := $(libdir)/lib$(packagename).a
+libname       := lib$(packagename)
+libtarget     := $(libdir)/$(libname).a
+libsoname     := $(libname).so.$(major_version)
+librealname   := $(libdir)/$(libname).so.$(version)
 exetarget     := $(packagename)
 pkgconfigfile := $(packagename).pc
 

@@ -10,6 +10,7 @@ $(exetarget) : ${objects}
 	@echo
 	$(compiler) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
+
 .PHONY : compilation
 compilation:
 ifeq ($(is_debug),true)
@@ -18,10 +19,16 @@ else
 	@echo release
 endif
 
+.PHONY  : slib
+slib   : $(objects)
+	g++ -shared -Wl,-soname,$(libsoname) -o $(librealname)  $^
+	ldconfig -v -n $(libdir)
+	ln -s $(libsoname) $(libdir)/$(libname).so
+
 .PHONY  : library
 library : $(libtarget) tags
 	@echo
-	@echo ------------------ making library $(libtarget)
+	@echo ------------------ library $(libtarget) is built.
 	@echo
 
 $(libtarget): $(objects)
@@ -52,8 +59,9 @@ clean  :
 	@echo
 	@echo ------------------ cleaning *.o exe lib
 	@echo
-	@echo rm -f $(objects) ${libtarget} ${exetarget} $(tag_file) gmon.out
-	@rm -f $(objects) ${libtarget} ${exetarget} $(tag_file) gmon.out
+	@echo rm -f $(objects) $(libtarget) ${exetarget} $(tag_file) gmon.out $(librealname) $(libdir)/$(libname).so $(libdir)/$(libsoname)
+	@rm -f $(objects) $(libtarget) ${libtarget} ${exetarget} $(tag_file) gmon.out $(librealname) $(libdir)/$(libname).so $(libdir)/$(libsoname)
+
 
 .PHONY : cleanaux
 cleanaux  :
@@ -98,6 +106,24 @@ install-lib: $(libtarget) tags pkgfile uninstall
 	@echo
 	@cp $(pkgconfigfile) $(installdir)/lib/pkgconfig/
 
+.PHONY: install-slib
+install-slib: $(slib) tags pkgfile uninstall
+	@echo
+	@echo ------------------ installing library and header files
+	@echo
+	@echo ------------------ installing at $(installdir)
+	@echo
+	@mkdir -p $(installdir)/include
+	@rsync -rv --exclude=.svn $(includedir)/* $(installdir)/include/
+	@mkdir -p $(installdir)/lib/pkgconfig
+	@cp -vfr $(libdir)/*  $(installdir)/lib
+	@echo
+	@echo ------------------ installing the pkg-config file to $(installdir)/lib/pkgconfig. \
+		Remember to add this path to your PKG_CONFIG_PATH variable
+	@echo
+	@cp $(pkgconfigfile) $(installdir)/lib/pkgconfig/
+
+
 .PHONY: install
 install: $(exetarget) tags
 	@cp -f $(exetarget) $(installdir)/bin
@@ -129,6 +155,9 @@ uninstall:
 	@rm -rf $(installdir)/src/$(packagename)
 	@rm -f   $(installdir)/lib/pkgconfig/$(pkgconfigfile)
 	@rm -f   $(installdir)/bin/$(exetarget)
+	@rm -f $(installdir)/lib/$(libsoname)
+	@rm -f $(installdir)/$(librealname)
+	@rm -f $(installdir)/lib/$(libname).so
 
 ifneq "$(MAKECMDGOALS)" "clean"
   include $(dependencies)
@@ -178,7 +207,7 @@ pkgfile:
 	@echo 						>> $(pkgconfigfile)
 	@echo Name: "$(packagename)" 			>> $(pkgconfigfile)
 	@echo Description: "$(description)" 		>> $(pkgconfigfile)
-	@echo Version: "$(version)" 			>> $(pkgconfigfile)
+	@echo Version: "$(version)"                     >> $(pkgconfigfile)
 	@echo Libs: -L$$\{libdir} -l$(packagename) 	>> $(pkgconfigfile)
 	@echo Cflags: -I$$\{includedir\} ${define_flags}>> $(pkgconfigfile)
 	@echo Requires: ${external_libraries}           >> $(pkgconfigfile)
@@ -194,7 +223,8 @@ revert :
 export :
 	@echo "#automatically generated makefile"         >  $(automakefile)
 	@echo packagename := ${packagename}               >> ${automakefile}
-	@echo version := ${version}                       >> ${automakefile}
+	@echo major_version := ${major_version}           >> ${automakefile}
+	@echo minor_version := ${minor_version}           >> ${automakefile}
 	@echo author := ${author}                         >> ${automakefile}
 	@echo description := "${description}"             >> ${automakefile}
 	@echo licence := ${licence}                       >> ${automakefile}
@@ -276,6 +306,8 @@ rules :
 	@echo
 	@echo "(nothing)   : makes the executable : "
 	@echo "library     : generates the library"
+	@echo "slib        : generates shared library"
+	@echo "install-slib: installs shared library"
 	@echo "tags        : generates etags files"
 	@echo "dox         : generates the doxygen documentation if Doxyfile exists"
 	@echo "clear       : cleans up *~ #* and dependencies"
