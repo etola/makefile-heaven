@@ -13,12 +13,32 @@ ifeq ($(version),)
  version := $(major_version)"."$(minor_version)
 endif
 
+ifeq ($(optimize),false)
+  packagename := $(packagename)d
+  outdir := debug
+else
+  outdir := release
+endif
+
+# sources_list = $(sources)
 sources_list = $(addprefix $(srcdir)/, $(sources))
 
-objects       := $(filter %.o,$(subst   .c,.o,$(sources_list)))
-objects       += $(filter %.o,$(subst  .cc,.o,$(sources_list)))
-objects       += $(filter %.o,$(subst .cpp,.o,$(sources_list)))
+objectfiles       := $(filter %.o,$(subst   .c,.o,$(sources_list)))
+objectfiles       += $(filter %.o,$(subst  .cc,.o,$(sources_list)))
+objectfiles       += $(filter %.o,$(subst .cpp,.o,$(sources_list)))
+
+objects = $(objectfiles)
+# objects = $(addprefix $(outdir)/, $(objectfiles))
+
 dependencies  := $(subst .o,.d,$(objects))
+
+# dependencies := $(srcdir)'/'$(dependencies)
+# dependencies := $(subst $(srcdir), $(outdir), $(dependencies))
+
+
+ifneq "$(MAKECMDGOALS)" "clean"
+  include $(dependencies)
+endif
 
 libname       := lib$(packagename)
 libtarget     := $(libdir)/$(libname).a

@@ -8,6 +8,13 @@ CTAGFLAGS := -e -R --languages=c++,c
 CXXFLAGS += ${define_flags} -I$(includedir) ${custom_cflags}
 LDFLAGS += ${custom_ld_flags}
 
+ifeq ($(optimize),false)
+  external_libraries := $(subst kutility, kutilityd, $(external_libraries) )
+  external_libraries := $(subst kortex,   kortexd,   $(external_libraries) )
+  external_libraries := $(subst daisy,    daisyd,    $(external_libraries) )
+  external_libraries := $(subst evidence, evidenced, $(external_libraries) )
+endif
+
 ifneq ($(external_sources),)
  CXXFLAGS += `pkg-config --cflags ${external_sources}`
 endif

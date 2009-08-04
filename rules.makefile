@@ -159,37 +159,6 @@ uninstall:
 	@rm -f $(installdir)/$(librealname)
 	@rm -f $(installdir)/lib/$(libname).so
 
-ifneq "$(MAKECMDGOALS)" "clean"
-  include $(dependencies)
-endif
-
-%.d : %.c
-	@echo
-	@echo ------------------ creating dependencies for $@
-	@echo
-	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | \
-	sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
-	mv -f $@.tmp $@
-	@echo
-
-%.d : %.cc
-	@echo
-	@echo ------------------ creating dependencies for $@
-	@echo
-	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | \
-	sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
-	mv -f $@.tmp $@
-	@echo
-
-%.d : %.cpp
-	@echo
-	@echo ------------------ creating dependencies for $@
-	@echo
-	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | \
-	sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
-	mv -f $@.tmp $@
-	@echo
-
 .PHONY : pkgfile
 pkgfile:
 	@echo
@@ -262,8 +231,14 @@ flags :
 	@echo ------------------ build flags
 	@echo
 	@echo ldflags  = $(LDFLAGS)
+	@echo
 	@echo cxxflags = $(CXXFLAGS)
+	@echo
 	@echo source_list = ${sources_list}
+	@echo
+	@echo objects = ${objects}
+	@echo
+	@echo dependencies = ${dependencies}
 
 .PHONY : gflat
 gflat :
@@ -329,134 +304,30 @@ rules :
 	@echo "revert      : moves makefile.in to makefile"
 	@echo
 
-.PHONY : comment
-comment :
-	@echo "#=============================================================================#" > ${commentfile}
-	@echo "# This program is free software; you can redistribute it and/or modify it     #" >> ${commentfile}
-	@echo "# under the terms of the GNU General Public License version 2 (or higher) as  #" >> ${commentfile}
-	@echo "# published by the Free Software Foundation.                                  #" >> ${commentfile}
-	@echo "#                                                                             #" >> ${commentfile}
-	@echo "# This program is distributed in the hope that it will be useful, but WITHOUT #" >> ${commentfile}
-	@echo "# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or       #" >> ${commentfile}
-	@echo "# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public Licence for   #" >> ${commentfile}
-	@echo "# more details.                                                               #" >> ${commentfile}
-	@echo "#                                                                             #" >> ${commentfile}
-	@echo "# Written and (C) by                                                          #" >> ${commentfile}
-	@echo "# Engin Tola                                                                  #" >> ${commentfile}
-	@echo "#                                                                             #" >> ${commentfile}
-	@echo "# web   : http://cvlab.epfl.ch/~tola                                          #" >> ${commentfile}
-	@echo "# email : engin.tola@epfl.ch                                                  #" >> ${commentfile}
-	@echo "#                                                                             #" >> ${commentfile}
-	@echo "#=============================================================================#" >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# for a more detailed explanation visit "                                        >> ${commentfile}
-	@echo "# http://cvlab.epfl.ch/~tola/makefile_heaven.html"                               >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# this is the directory the library will be installed if you issue a"            >> ${commentfile}
-	@echo "# 'make install-lib' command:"                                                   >> ${commentfile}
-	@echo '# headers to $${installdir}/$${packagename}/include'                             >> ${commentfile}
-	@echo '# library to $$(installdir)/lib'                                                 >> ${commentfile}
-	@echo '# pkg-file to $$(installdir)/lib/pkgconfig/'                                     >> ${commentfile}
-	@echo "# 'make install' command:"                                                       >> ${commentfile}
-	@echo '# executable to $${installdir}/bin/'                                             >> ${commentfile}
-	@echo 'installdir  := $(installdir)'                                                    >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# this is the name of the package. i.e if it is 'cvlab' the executable"          >> ${commentfile}
-	@echo "# will be named as 'cvlab' and if this is a library its name will be"            >> ${commentfile}
-	@echo "# 'libcvlab.a'"                                                                  >> ${commentfile}
-	@echo "packagename := ${packagename}"                                                   >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "version     := ${version}"                                                       >> ${commentfile}
-	@echo "author      := ${author}"                                                        >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# you can write a short description here about the package"                      >> ${commentfile}
-	@echo "description := ${description}"                                                   >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# i'm for gpl but you can edit it yourself"                                      >> ${commentfile}
-	@echo "licence     := ${licence}"                                                       >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# the external libraries and sources are managed (included, linked)"             >> ${commentfile}
-	@echo "# using the pkg-config program. if you don't have it, you cannot use"            >> ${commentfile}
-	@echo "# this template to include/link libraries. get it from"                          >> ${commentfile}
-	@echo "# http://pkg-config.freedesktop.org/wiki/"                                       >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo '# external sources: uses pkg-config as pkg-config --cflags $${external_sources}' >> ${commentfile}
-	@echo "# if you don't need any source, set it to 'none'"                                >> ${commentfile}
-	@echo "external_sources := ${external_sources}"                                         >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo '# external sources: uses pkg-config as "pkg-config --cflags $${external_libraries}"' >> ${commentfile}
-	@echo '# for CXXFLAGS and pkg-config --libs $${external_libraries} for library inclusions' >> ${commentfile}
-	@echo '# if you do not need any external library, set it to "none".'                    >> ${commentfile}
-	@echo "# the order is important for linking. write the name of the package that depends" >> ${commentfile}
-	@echo "# on another package first."                                                     >> ${commentfile}
-	@echo "# external_libraries := none"                                                    >> ${commentfile}
-	@echo "external_libraries := ${external_libraries}"                                     >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# fortran to c conversion ? I need this for Lapack - ATLAS library"              >> ${commentfile}
-	@echo "# stuff (also lpp above)"                                                        >> ${commentfile}
-	@echo "f77 := ${f77}"                                                                   >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# if optimized -> no debug info is produced --> applies -O3 flag if"             >> ${commentfile}
-	@echo "# set to true"                                                                   >> ${commentfile}
-	@echo "# optimize := true/false"                                                        >> ${commentfile}
-	@echo "optimize    := ${optimize}"                                                      >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# this is for laptops and stuff with intel pentium M processors, if"             >> ${commentfile}
-	@echo "# you are not sure of your system, just set 'specialize' to false. if"           >> ${commentfile}
-	@echo "# it is a different one look for the -march option param of gcc and"             >> ${commentfile}
-	@echo "# write your platforms name optimize for pentium4 ? / disabled if"               >> ${commentfile}
-	@echo "# optimize is false"                                                             >> ${commentfile}
-	@echo "specialize  := ${specialize}"                                                    >> ${commentfile}
-	@echo "platform    := ${platform}"                                                      >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# do you want openmp support ? if you've never heard of it say 'false'"          >> ${commentfile}
-	@echo "# parallelize := true/false"                                                     >> ${commentfile}
-	@echo "parallelize := ${parallelize}"                                                   >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# pthread support"                                                               >> ${commentfile}
-	@echo "multi-threading := ${multi-threading}"                                           >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# enable sse instruction sets ( sse sse2 )"                                      >> ${commentfile}
-	@echo "sse := ${sse}"                                                                   >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# generate profiler data if true.  "                                             >> ${commentfile}
-	@echo "#   ! set the optimize = false if you want annotation support.  "                >> ${commentfile}
-	@echo "#  !! if you don't compile libraries with this flag, profiler won't be "         >> ${commentfile}
-	@echo "#      able to make measurements for those libraries.  "                         >> ${commentfile}
-	@echo "# !!! after running your program, you can see the results with"                  >> ${commentfile}
-	@echo "#      'make gflat' and 'make gcall'"                                            >> ${commentfile}
-	@echo "profile := ${profile}"                                                           >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# do not change for linux /usr type directory structures. this structure means"  >> ${commentfile}
-	@echo '# .cpp/cc files reside in ./srcdir and .h files reside in ./include/$$(packagename)/' >> ${commentfile}
-	@echo "# if you are building a library, the lib$(packagename).a will be in ./lib file." >> ${commentfile}
-	@echo "# libdir      := lib"                                                            >> ${commentfile}
-	@echo "# srcdir      := src"                                                            >> ${commentfile}
-	@echo "# includedir  := include"                                                        >> ${commentfile}
-	@echo "# If you'd like to have everything in the main directory"                        >> ${commentfile}
-	@echo "libdir      := ${libdir}"                                                        >> ${commentfile}
-	@echo "srcdir      := ${srcdir}"                                                        >> ${commentfile}
-	@echo "includedir  := ${includedir}"                                                    >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# what to compile ? include .cpp and .c files here in your project"              >> ${commentfile}
-	@echo "# if you don't have a main() function in one of the sources, you'll get an error" >> ${commentfile}
-	@echo "# if you're building an executable. for a library, it won't complain for anything." >> ${commentfile}
-	@echo "sources     := ${sources}"                                                       >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "################################################################################">> ${commentfile}
-	@echo "####################### LOAD PRESET SETTINGS ###################################">> ${commentfile}
-	@echo "################################################################################">> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# these are the magic files that this interface depends."                        >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# some temp operations."                                                         >> ${commentfile}
-	@echo "include ${MAKEFILE_HEAVEN}/static-variables.makefile"                            >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# flag settings for gcc like CXXFLAGS, LDFLAGS...  to see the active"            >> ${commentfile}
-	@echo "# flag definitions, issue 'make flags' command"                                  >> ${commentfile}
-	@echo "include ${MAKEFILE_HEAVEN}/flags.makefile"                                       >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "# rules are defined here. to see a list of the available rules, issue 'make rules'" >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
-	@echo "include $(MAKEFILE_HEAVEN)/rules.makefile"                                       >> ${commentfile}
-	@echo                                                                                   >> ${commentfile}
+%.d : %.c
+	@echo
+	@echo ------------------ creating dependencies for $@
+	@echo
+	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | \
+	sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
+	mv -f $@.tmp $@
+	@echo
+
+%.d : %.cc
+	@echo
+	@echo ------------------ creating dependencies for $@
+	@echo
+	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | \
+	sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
+	mv -f $@.tmp $@
+	@echo
+
+%.d : %.cpp
+	@echo
+	@echo ------------------ creating dependencies for $@
+	@echo
+	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | \
+	sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
+	mv -f $@.tmp $@
+	@echo
+
