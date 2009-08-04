@@ -23,7 +23,7 @@ endif
 slib   : $(objects)
 	g++ -shared -Wl,-soname,$(libsoname) -o $(librealname)  $^
 	ldconfig -v -n $(libdir)
-	ln -s $(libsoname) $(libdir)/$(libname).so
+	ln -sf $(libsoname) $(libdir)/$(libname).so
 
 .PHONY  : library
 library : $(libtarget) tags
@@ -83,7 +83,7 @@ cleandist  :
 	@echo
 	@echo ------------------ cleaning everything
 	@echo
-	@rm -f $(pkgconfigfile) $(libtarget) $(packagename) $(objects) ${exetarget} $(dependencies) $(tag_file) gmon.out
+	@rm -f $(pkgconfigfile) $(libtarget) $(packagename) $(objects) ${exetarget} $(dependencies) $(tag_file) gmon.out  $(librealname) $(libdir)/$(libname).so $(libdir)/$(libsoname)
 
 .PHONY : clear
 clear :
