@@ -8,9 +8,12 @@ endif
 ifeq ($(minor_version),)
  minor_version := 1
 endif
+ifeq ($(tiny_version),)
+ tiny_version := 0
+endif
 
 ifeq ($(version),)
- version := $(major_version)"."$(minor_version)
+ version := $(major_version)"."$(minor_version)"."$(tiny_version)
 endif
 
 ifeq ($(optimize),false)
@@ -35,10 +38,6 @@ dependencies  := $(subst .o,.d,$(objects))
 # dependencies := $(srcdir)'/'$(dependencies)
 # dependencies := $(subst $(srcdir), $(outdir), $(dependencies))
 
-
-ifneq "$(MAKECMDGOALS)" "clean"
-  include $(dependencies)
-endif
 
 libname       := lib$(packagename)
 libtarget     := $(libdir)/$(libname).a

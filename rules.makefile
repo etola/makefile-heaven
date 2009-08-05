@@ -331,3 +331,7 @@ rules :
 	mv -f $@.tmp $@
 	@echo
 
+ifneq "$(MAKECMDGOALS)" "clean"
+  include $(dependencies)
+endif
+
