@@ -37,6 +37,8 @@ objects = $(addprefix $(outdir), $(objectfiles))
 
 dependencies  := $(subst .o,.d,$(objects))
 
+depdir := $(dir ${dependencies})
+
 # dependencies := $(srcdir)$(dependencies)
 # dependencies := $(subst $(srcdir), $(outdir), $(dependencies))
 
@@ -64,5 +66,5 @@ CXX := ${compiler}
 
 curpath=`pwd -P`
 
-REQUIRED_DIRS = ${outdir} ${libdir}
+REQUIRED_DIRS = ${outdir} ${libdir} ${depdir}
 

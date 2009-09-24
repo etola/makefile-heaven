@@ -18,6 +18,7 @@ flags :
 	@echo objects = ${objects}
 	@echo
 	@echo dependencies = ${dependencies}
+	@echo depdir = ${depdir}
 
 .PHONY : internal_var
 internal_var :
