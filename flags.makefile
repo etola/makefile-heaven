@@ -11,6 +11,7 @@ LDFLAGS += ${custom_ld_flags}
 ifeq ($(optimize),false)
   external_libraries := $(subst kutility, kutilityd, $(external_libraries) )
   external_libraries := $(subst kortex,   kortexd,   $(external_libraries) )
+  external_libraries := $(subst karpet,   karpetd,   $(external_libraries) )
   external_libraries := $(subst daisy,    daisyd,    $(external_libraries) )
   external_libraries := $(subst evidence, evidenced, $(external_libraries) )
 endif

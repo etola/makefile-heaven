@@ -5,6 +5,7 @@ packagename :=
 description :=
 major_version := 0
 minor_version := 1
+tiny_version  := 0
 # version := major_version . minor_version # depracated
 author := Engin Tola
 licence := GPL v2.0 or higher distributed by FSF

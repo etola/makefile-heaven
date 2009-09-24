@@ -2,6 +2,48 @@
 ################################ - MAKEFILE RULES - ############################
 ################################################################################
 
+_MKDIRS := $(shell mkdir -p ${REQUIRED_DIRS})
+
+.PHONY : flags
+flags :
+	@echo
+	@echo ------------------ build flags
+	@echo
+	@echo ldflags  = $(LDFLAGS)
+	@echo
+	@echo cxxflags = $(CXXFLAGS)
+	@echo
+	@echo source_list = ${sources_list}
+	@echo
+	@echo objects = ${objects}
+	@echo
+	@echo dependencies = ${dependencies}
+
+.PHONY : internal_var
+internal_var :
+	@echo {curpath}       ${curpath}
+	@echo {compiler}      ${compiler}
+	@echo {CXX}           ${CXX}
+	@echo {libname}       ${libname}
+	@echo {libtarget}     ${libtarget}
+	@echo {libsoname}     ${libsoname}
+	@echo {librealname}   ${librealname}
+	@echo {exetarget}     ${exetarget}
+	@echo {pkgconfigfile} ${pkgconfigfile}
+	@echo {automakefile}  ${automakefile}
+	@echo {commentfile}   ${commentfile}
+	@echo {tag_file}      ${tag_file}
+	@echo {tag_generator} ${tag_generator}
+	@echo {tag_depends}   ${tag_depends}
+	@echo {tag_src}       ${tag_src}
+	@echo
+	@echo ldflags  = $(LDFLAGS)
+	@echo cxxflags = $(CXXFLAGS)
+	@echo source_list = ${sources_list}
+	@echo objects = ${objects}
+	@echo dependencies = ${dependencies}
+	@echo
+
 .PHONY       : $(exetarget)
 $(exetarget) : ${objects}
 	@echo compiler path = ${compiler}
@@ -9,7 +51,6 @@ $(exetarget) : ${objects}
 	@echo ------------------ making executable
 	@echo
 	$(compiler) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
-
 
 .PHONY : compilation
 compilation:
@@ -194,6 +235,7 @@ export :
 	@echo packagename := ${packagename}               >> ${automakefile}
 	@echo major_version := ${major_version}           >> ${automakefile}
 	@echo minor_version := ${minor_version}           >> ${automakefile}
+	@echo tiny_version  := ${tiny_version}            >> ${automakefile}
 	@echo author := ${author}                         >> ${automakefile}
 	@echo description := "${description}"             >> ${automakefile}
 	@echo licence := ${licence}                       >> ${automakefile}
@@ -207,10 +249,10 @@ export :
 	@echo define_flags := ${define_flags}             >> ${automakefile}
 	@echo "#........................................" >> ${automakefile}
 	@echo optimize := ${optimize}                     >> ${automakefile}
+	@echo parallelize := ${parallelize}               >> ${automakefile}
 	@echo f77 := ${f77}                               >> ${automakefile}
 	@echo sse := ${sse}                               >> ${automakefile}
 	@echo multi-threading := ${multi-threading}       >> ${automakefile}
-	@echo parallelize := ${parallelize}               >> ${automakefile}
 	@echo profile := ${profile}                       >> ${automakefile}
 	@echo "#........................................" >> ${automakefile}
 	@echo specialize := ${specialize}                 >> ${automakefile}
@@ -224,21 +266,6 @@ export :
 	@echo >> ${automakefile}
 	@mv makefile makefile.in
 	@mv ${automakefile} makefile
-
-.PHONY : flags
-flags :
-	@echo
-	@echo ------------------ build flags
-	@echo
-	@echo ldflags  = $(LDFLAGS)
-	@echo
-	@echo cxxflags = $(CXXFLAGS)
-	@echo
-	@echo source_list = ${sources_list}
-	@echo
-	@echo objects = ${objects}
-	@echo
-	@echo dependencies = ${dependencies}
 
 .PHONY : gflat
 gflat :
@@ -304,34 +331,42 @@ rules :
 	@echo "revert      : moves makefile.in to makefile"
 	@echo
 
-%.d : %.c
+${outdir}%.d : ${srcdir}%.c
 	@echo
 	@echo ------------------ creating dependencies for $@
 	@echo
-	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | \
-	sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
+	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
 	mv -f $@.tmp $@
 	@echo
 
-%.d : %.cc
+${outdir}%.d : ${srcdir}%.cc
 	@echo
 	@echo ------------------ creating dependencies for $@
 	@echo
-	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | \
-	sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
+	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
 	mv -f $@.tmp $@
 	@echo
 
-%.d : %.cpp
+${outdir}%.d : ${srcdir}%.cpp
 	@echo
 	@echo ------------------ creating dependencies for $@
 	@echo
-	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | \
-	sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
+	$(compiler) $(CXXFLAGS) $(TARGET_ARCH) -MM $< | sed 's,\($(notdir $*)\.o\) *:,$(dir $@)\1 $@: ,' > $@.tmp
 	mv -f $@.tmp $@
 	@echo
+
+${outdir}%.o : ${srcdir}%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+${outdir}%.o : ${srcdir}%.c
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+${outdir}%.o : ${srcdir}%.cc
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 
 ifneq "$(MAKECMDGOALS)" "clean"
   include $(dependencies)
 endif
+
 
