@@ -4,6 +4,14 @@
 
 _MKDIRS := $(shell mkdir -p ${REQUIRED_DIRS})
 
+.PHONY       : $(exetarget)
+$(exetarget) : ${objects}
+	@echo compiler path = ${compiler}
+	@echo
+	@echo ------------------ making executable
+	@echo
+	$(compiler) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
+
 .PHONY : flags
 flags :
 	@echo
@@ -44,14 +52,6 @@ internal_var :
 	@echo objects = ${objects}
 	@echo dependencies = ${dependencies}
 	@echo
-
-.PHONY       : $(exetarget)
-$(exetarget) : ${objects}
-	@echo compiler path = ${compiler}
-	@echo
-	@echo ------------------ making executable
-	@echo
-	$(compiler) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
 .PHONY : compilation
 compilation:

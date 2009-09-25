@@ -42,12 +42,13 @@ depdir := $(dir ${dependencies})
 # dependencies := $(srcdir)$(dependencies)
 # dependencies := $(subst $(srcdir), $(outdir), $(dependencies))
 
+bindir := ${outdir}'/bin/'
 libdir := ${outdir}${libdir}
 libname       := lib$(packagename)
 libtarget     := $(libdir)/$(libname).a
 libsoname     := $(libname).so.$(major_version)
 librealname   := $(libdir)/$(libname).so.$(version)
-exetarget     := $(packagename)
+exetarget     := ${bindir}$(packagename)
 pkgconfigfile := $(packagename).pc
 
 automakefile := make.auto
@@ -66,5 +67,5 @@ CXX := ${compiler}
 
 curpath=`pwd -P`
 
-REQUIRED_DIRS = ${outdir} ${libdir} ${depdir}
+REQUIRED_DIRS = ${outdir} ${libdir} ${depdir} ${bindir}
 
