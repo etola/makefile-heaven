@@ -25,22 +25,17 @@ endif
 
 srcdir := ${srcdir}/
 
-# sources_list = $(sources)
 sources_list = $(addprefix $(srcdir), $(sources))
 
 objectfiles       := $(filter %.o,$(subst   .c,.o,$(sources)))
 objectfiles       += $(filter %.o,$(subst  .cc,.o,$(sources)))
 objectfiles       += $(filter %.o,$(subst .cpp,.o,$(sources)))
 
-# objects = $(objectfiles)
 objects = $(addprefix $(outdir), $(objectfiles))
 
 dependencies  := $(subst .o,.d,$(objects))
 
 depdir := $(dir ${dependencies})
-
-# dependencies := $(srcdir)$(dependencies)
-# dependencies := $(subst $(srcdir), $(outdir), $(dependencies))
 
 bindir := ${outdir}'/bin/'
 libdir := ${outdir}${libdir}
@@ -61,8 +56,8 @@ tag_src := ${includedir}/*.h ${includedir}/${packagename}/*.h		\
 ${includedir}/*.tcc ${includedir}/${packagename}/*.tcc ${srcdir}*.cpp	\
 ${srcdir}*.cc $(srcdir)*.c
 
-# compiler := g++
-compiler := colorgcc
+compiler := g++
+# compiler := colorgcc
 CXX := ${compiler}
 
 curpath=`pwd -P`

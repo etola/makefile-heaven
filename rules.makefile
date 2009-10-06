@@ -125,7 +125,12 @@ cleandist  :
 	@echo
 	@echo ------------------ cleaning everything
 	@echo
-	@rm -f $(pkgconfigfile) $(libtarget) $(packagename) $(objects) ${exetarget} $(dependencies) $(tag_file) gmon.out  $(librealname) $(libdir)/$(libname).so $(libdir)/$(libsoname)
+	@rm -f $(pkgconfigfile) $(libtarget) $(objects) ${exetarget} $(dependencies) $(tag_file) gmon.out  $(librealname) $(libdir)/$(libname).so $(libdir)/$(libsoname)
+
+.PHONY   : cleandep
+cleandep :
+	@echo ------------------ cleaning dependencies
+	@rm -rf ${dependencies}
 
 .PHONY : clear
 clear :
@@ -270,11 +275,13 @@ export :
 
 .PHONY : gflat
 gflat :
-	@gprof $(packagename) gmon.out -p | more
+	@echo "gprof $(exetarget) gmon.out -p | more"
+	@gprof $(exetarget) gmon.out -p | more
 
 .PHONY : gcall
 gcall :
-	@gprof $(packagename) gmon.out -q | more
+	@echo "gprof $(exetarget) gmon.out -q | more"
+	@gprof $(exetarget) gmon.out -q | more
 
 .PHONY : state
 state  :
@@ -316,6 +323,7 @@ rules :
 	@echo "clear       : cleans up *~ #* and dependencies"
 	@echo "clean       : cleans up .o lib and exe files"
 	@echo "cleanaux    : cleans auxilary files: *.o *.d"
+	@echo "cleandep    : cleans up the dependency files"
 	@echo "cleandox    : cleans up the documentation"
 	@echo "cleandist   : cleans everything except source+headers"
 	@echo "install     : installs the executable"

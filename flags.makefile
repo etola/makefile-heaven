@@ -45,12 +45,9 @@ ifeq ($(profile),true)
 endif
 
 dbg_flags = -g -DDEBUG
-opt_flags = -O3 -DHAVE_INLINE -DGSL_RANGE_CHECK_OFF -DNDEBUG
+opt_flags = -O3 -DHAVE_INLINE -DNDEBUG
 spc_flags = '-march=$(platform)' -mfpmath=sse
 
-ifeq ($(parallelize),true)
-   CXXFLAGS += -fopenmp
-endif
 ifeq ($(optimize),true)
   CXXFLAGS += $(opt_flags)
   ifeq ($(specialize),true)
@@ -59,6 +56,11 @@ ifeq ($(optimize),true)
 else
   CXXFLAGS += ${dbg_flags}
   parallelize = false
+  profile = true
+endif
+
+ifeq ($(parallelize),true)
+   CXXFLAGS += -fopenmp
 endif
 
 is_debug := $(wildcard .debug)
