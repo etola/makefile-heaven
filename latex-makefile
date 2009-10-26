@@ -1,0 +1,60 @@
+# Enter here the name of the document (without .tex extension)
+doc = top
+
+# type "make" to process latex
+# type "make refs" to get proper references to figures and papers
+# "make ps" and "make pdf" do what you imagine
+# "make clean" removes the *~ files of emacs
+# "make hardclean" removes the .dvi .aux .log .blg files and the postscript document
+
+# quick:
+# 	@latex -interaction=batchmode $(doc).tex || latex $(doc).tex
+# 	@cat $(doc).log | grep "LaTeX Warning:" || echo "No warning."
+# 	@cat $(doc).log | grep "Output written"
+
+ns:
+	@latex -interaction=batchmode $(doc).tex || cat $(doc).log | grep "LaTeX Error:"
+	@cat $(doc).log | grep "LaTeX Warning:" || echo "No warning."
+	@cat $(doc).log | grep "Output written"
+
+refs:
+	@echo "---------------------------------------------------------------------------------------"
+	@(echo "> Running LaTeX a first time..."; latex -interaction=batchmode $(doc).tex > /dev/null) || echo " (LaTeX produced some errors. Let's continue anyway)"
+	@(echo "---------------------------------------------------------------------------------------"; echo "> Running BibTeX..."; bibtex $(doc) | grep "Warning"; echo "---------------------------------------------------------------------------------------")
+	@(echo "> Running LaTeX a second time..."; latex -interaction=batchmode $(doc).tex > /dev/null)  || echo > /dev/null
+	@(echo "> Running LaTeX a last time..."; latex -interaction=batchmode $(doc).tex > /dev/null)    || echo > /dev/null
+	@(echo "---------------------------------------------------------------------------------------"; cat $(doc).log | grep "LaTeX Warning:") || echo "No warning."
+	@(echo "---------------------------------------------------------------------------------------"; cat $(doc).log | grep "LaTeX Error:") || echo "No error."
+	@(echo "---------------------------------------------------------------------------------------"; cat $(doc).log | grep "Output written")
+
+update:
+	cvs update
+
+commit:
+	cvs commit
+
+pdfshow:
+	kpdf $(doc).pdf &
+
+ps:     refs
+	dvips -o $(doc).ps -t letter $(doc).dvi
+
+pdf:
+	latex -interaction=batchmode $(doc).tex || cat $(doc).log | grep "LaTeX Error:"
+	bibtex $(doc)
+	latex $(doc).tex || cat $(doc).log | grep "LaTeX Error:"
+	latex $(doc).tex || cat $(doc).log | grep "LaTeX Error:"
+	dvips -o $(doc).ps -t letter $(doc).dvi
+	ps2pdf $(doc).ps
+
+view:
+	kpdf $(doc).pdf &
+
+upload: pdf
+	scp top.pdf $(USER)@cvlabpc11.epfl.ch:public_html/$(doc).pdf
+
+clean:
+	\rm -f *~
+
+hardclean:
+	\rm -f $(doc).dvi $(doc).ps $(doc).pdf *~ *.aux *.log *.blg *.bbl
