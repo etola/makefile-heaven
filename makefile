@@ -1,8 +1,8 @@
 #
 # package & author info
 #
-packagename :=
-description :=
+packagename := 
+description := 
 major_version := 0
 minor_version := 1
 tiny_version  := 0
@@ -12,13 +12,13 @@ licence := GPL v2.0 or higher distributed by FSF
 #
 # add you cpp cc files here
 #
-sources :=
+sources := 
 #
 # output info
 #
 installdir := /home/tola/usr
 external_sources :=
-external_libraries := kutility
+external_libraries := karpet
 libdir := .
 srcdir := .
 includedir:= .
@@ -30,12 +30,12 @@ custom_ld_flags :=
 #
 # optimization & parallelization ?
 #
-optimize := true
-parallelize := false
-f77 := false
-sse := false
-multi-threading := false
-profile := false
+optimize ?= true
+parallelize ?= true
+f77 ?= false
+sse ?= false
+multi-threading ?= false
+profile ?= false
 #........................................
 specialize := false
 platform := native

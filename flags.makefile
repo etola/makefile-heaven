@@ -9,11 +9,11 @@ CXXFLAGS += ${define_flags} -I$(includedir) ${custom_cflags}
 LDFLAGS += ${custom_ld_flags}
 
 ifeq ($(optimize),false)
-  external_libraries := $(subst kutility, kutilityd, $(external_libraries) )
-  external_libraries := $(subst kortex,   kortexd,   $(external_libraries) )
-  external_libraries := $(subst karpet,   karpetd,   $(external_libraries) )
-  external_libraries := $(subst daisy,    daisyd,    $(external_libraries) )
-  external_libraries := $(subst evidence, evidenced, $(external_libraries) )
+  external_libraries := $(subst kutility,kutilityd,$(external_libraries))
+  external_libraries := $(subst kortex,kortexd,$(external_libraries))
+  external_libraries := $(subst karpet,karpetd,$(external_libraries))
+  external_libraries := $(subst daisy,daisyd,$(external_libraries))
+  external_libraries := $(subst evidence,evidenced,$(external_libraries))
 endif
 
 ifneq ($(external_sources),)
@@ -30,8 +30,8 @@ ifeq ($(f77),true)
 endif
 
 ifeq ($(sse),true)
-    CXXFLAGS += -msse -msse2
-    CPPFLAGS += -msse -msse2
+    CXXFLAGS += -msse -msse2 -DWITH_SSE
+    CPPFLAGS += -msse -msse2 -DWITH_SSE
 endif
 
 CXXFLAGS += -fno-strict-aliasing -Wall -fPIC
@@ -46,7 +46,7 @@ endif
 
 dbg_flags = -g -DDEBUG
 opt_flags = -O3 -DHAVE_INLINE -DNDEBUG
-spc_flags = '-march=$(platform)' -mfpmath=sse
+spc_flags = -march=$(platform) -mfpmath=sse
 
 ifeq ($(optimize),true)
   CXXFLAGS += $(opt_flags)
