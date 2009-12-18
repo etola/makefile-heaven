@@ -14,6 +14,7 @@ ifeq ($(optimize),false)
   external_libraries := $(subst karpet,karpetd,$(external_libraries))
   external_libraries := $(subst daisy,daisyd,$(external_libraries))
   external_libraries := $(subst evidence,evidenced,$(external_libraries))
+  external_libraries := $(subst kost,kostd,$(external_libraries))
 endif
 
 ifneq ($(external_sources),)
