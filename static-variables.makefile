@@ -56,8 +56,9 @@ tag_src := ${includedir}/*.h ${includedir}/${packagename}/*.h		\
 ${includedir}/*.tcc ${includedir}/${packagename}/*.tcc ${srcdir}*.cpp	\
 ${srcdir}*.cc $(srcdir)*.c
 
-compiler := g++
-# compiler := colorgcc
+ifeq ($(compiler),)
+ compiler := g++
+endif
 CXX := ${compiler}
 
 curpath=`pwd -P`

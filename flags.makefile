@@ -5,10 +5,11 @@
 ARFLAGS = ruv
 CTAGFLAGS := -e -R --languages=c++,c
 
-CXXFLAGS += ${define_flags} -I$(includedir) ${custom_cflags}
+CXXFLAGS += -ffast-math  ${define_flags} -I$(includedir) ${custom_cflags}
 LDFLAGS += ${custom_ld_flags}
 
 ifeq ($(optimize),false)
+  external_libraries := $(subst argus,argusd,$(external_libraries))
   external_libraries := $(subst kutility,kutilityd,$(external_libraries))
   external_libraries := $(subst kortex,kortexd,$(external_libraries))
   external_libraries := $(subst karpet,karpetd,$(external_libraries))
@@ -30,9 +31,13 @@ ifeq ($(f77),true)
  LDFLAGS += -lg2c
 endif
 
+ifeq ($(boost-thread),true)
+ LDFLAGS += -lboost_thread-mt
+endif
+
 ifeq ($(sse),true)
-    CXXFLAGS += -msse -msse2 -DWITH_SSE
-    CPPFLAGS += -msse -msse2 -DWITH_SSE
+    CXXFLAGS += -msse -msse2  -msse4.2 -DWITH_SSE
+    CPPFLAGS += -msse -msse2  -msse4.2 -DWITH_SSE
 endif
 
 CXXFLAGS += -fno-strict-aliasing -Wall -fPIC
@@ -45,7 +50,7 @@ ifeq ($(profile),true)
   CXXFLAGS+= -pg
 endif
 
-dbg_flags = -g -DDEBUG
+dbg_flags = -g -DDEBUG -DKORTEX_DEBUG
 opt_flags = -O3 -DHAVE_INLINE -DNDEBUG
 spc_flags = -march=$(platform) -mfpmath=sse
 

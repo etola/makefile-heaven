@@ -87,7 +87,7 @@ tags   :
 # 	@echo tin=$(tag_incl)
 # 	@echo tag_depdends:${tag_depends}
 # 	@echo tag_src:${tag_src}
-	@${tag_generator} -l ${tag_depends} -f ${tag_src} -o ${tag_file}
+#	@${tag_generator} -l ${tag_depends} -f ${tag_src} -o ${tag_file}
 
 .PHONY : dox
 dox    : Doxyfile
@@ -125,7 +125,8 @@ cleandist  :
 	@echo
 	@echo ------------------ cleaning everything
 	@echo
-	@rm -f $(pkgconfigfile) $(libtarget) $(objects) ${exetarget} $(dependencies) $(tag_file) gmon.out  $(librealname) $(libdir)/$(libname).so $(libdir)/$(libsoname)
+	@rm -rf $(outdir)
+## @rm -f $(pkgconfigfile) $(libtarget) $(objects) ${exetarget} $(dependencies) $(tag_file) gmon.out  $(librealname) $(libdir)/$(libname).so $(libdir)/$(libsoname)
 
 .PHONY   : cleandep
 cleandep :
@@ -224,8 +225,8 @@ pkgfile:
 	@echo Name: "$(packagename)" 			>> $(pkgconfigfile)
 	@echo Description: "$(description)" 		>> $(pkgconfigfile)
 	@echo Version: "$(version)"                     >> $(pkgconfigfile)
-	@echo Libs: -L$$\{libdir} -l$(packagename) 	>> $(pkgconfigfile)
-	@echo Cflags: -I$$\{includedir\} ${define_flags}>> $(pkgconfigfile)
+	@echo Libs: -L$$\{libdir} -l$(packagename) ${custom_ld_flags}	>> $(pkgconfigfile)
+	@echo Cflags: -I$$\{includedir\} ${define_flags} ${custom_cflags}  >> $(pkgconfigfile)
 	@echo Requires: ${external_libraries}           >> $(pkgconfigfile)
 	@echo Path=$(curpath)                           >> $(pkgconfigfile)
 	@echo tagfile=$$\{Path\}/$(tag_file)            >> $(pkgconfigfile)

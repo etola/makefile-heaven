@@ -27,18 +27,22 @@ includedir:= .
 #
 define_flags :=
 custom_ld_flags :=
+custom_cflags :=
 #
 # optimization & parallelization ?
 #
 optimize ?= true
 parallelize ?= true
+boost-thread ?= false
 f77 ?= false
-sse ?= false
+sse ?= true
 multi-threading ?= false
 profile ?= false
 #........................................
-specialize := false
+specialize := true
 platform := native
+#........................................
+compiler := g++
 #........................................
 include $(MAKEFILE_HEAVEN)/static-variables.makefile
 include $(MAKEFILE_HEAVEN)/flags.makefile
