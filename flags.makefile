@@ -5,13 +5,18 @@
 ARFLAGS = ruv
 CTAGFLAGS := -e -R --languages=c++,c
 
-CXXFLAGS += -ffast-math  ${define_flags} -I$(includedir) ${custom_cflags}
+#
+## -rdynamic: lets meaningful backtrace messagas.
+#
+
+CXXFLAGS += -ffast-math -rdynamic  ${define_flags} -I$(includedir) ${custom_cflags}
 LDFLAGS += ${custom_ld_flags}
 
 ifeq ($(optimize),false)
   external_libraries := $(subst argus,argusd,$(external_libraries))
   external_libraries := $(subst kutility,kutilityd,$(external_libraries))
   external_libraries := $(subst kortex,kortexd,$(external_libraries))
+  external_libraries := $(subst beholder,beholderd,$(external_libraries))
   external_libraries := $(subst karpet,karpetd,$(external_libraries))
   external_libraries := $(subst daisy,daisyd,$(external_libraries))
   external_libraries := $(subst evidence,evidenced,$(external_libraries))
