@@ -9,13 +9,13 @@ CXXFLAGS += -ffast-math  ${define_flags} -I$(includedir) ${custom_cflags}
 LDFLAGS += ${custom_ld_flags}
 
 ifeq ($(optimize),false)
-  external_libraries := $(subst argus,argusd,$(external_libraries))
-  external_libraries := $(subst kutility,kutilityd,$(external_libraries))
-  external_libraries := $(subst kortex,kortexd,$(external_libraries))
-  external_libraries := $(subst karpet,karpetd,$(external_libraries))
-  external_libraries := $(subst daisy,daisyd,$(external_libraries))
-  external_libraries := $(subst evidence,evidenced,$(external_libraries))
-  external_libraries := $(subst kost,kostd,$(external_libraries))
+  external_libraries := $(patsubst argus,argusd,$(external_libraries))
+  external_libraries := $(patsubst kutility,kutilityd,$(external_libraries))
+  external_libraries := $(patsubst kortex,kortexd,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-gui,kortex-ext-guid,$(external_libraries))
+  external_libraries := $(patsubst beholder,beholderd,$(external_libraries))
+  external_libraries := $(patsubst karpet,karpetd,$(external_libraries))
+  external_libraries := $(patsubst daisy,daisyd,$(external_libraries))
 endif
 
 ifneq ($(external_sources),)

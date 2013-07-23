@@ -81,9 +81,9 @@ $(libtarget): $(objects)
 
 .PHONY : tags
 tags   :
-	@echo
-	@echo ------------------ creating tag entries
-	@echo
+#	@echo
+#	@echo ------------------ creating tag entries
+#	@echo
 # 	@echo tin=$(tag_incl)
 # 	@echo tag_depdends:${tag_depends}
 # 	@echo tag_src:${tag_src}
