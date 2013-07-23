@@ -5,7 +5,11 @@
 ARFLAGS = ruv
 CTAGFLAGS := -e -R --languages=c++,c
 
-CXXFLAGS += -ffast-math  ${define_flags} -I$(includedir) ${custom_cflags}
+#
+## -rdynamic: lets meaningful backtrace messagas.
+#
+
+CXXFLAGS += -ffast-math -rdynamic  ${define_flags} -I$(includedir) ${custom_cflags}
 LDFLAGS += ${custom_ld_flags}
 
 ifeq ($(optimize),false)
