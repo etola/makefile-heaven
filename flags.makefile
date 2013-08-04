@@ -6,17 +6,27 @@ ARFLAGS = ruv
 CTAGFLAGS := -e -R --languages=c++,c
 
 #
-## -rdynamic: lets meaningful backtrace messagas.
 #
+#
+ifneq (,$(findstring libpng,$(external_libraries)))
+  define_flags += -DWITH_LIBPNG
+endif
+ifneq (,$(findstring libjpeg,$(external_libraries)))
+  define_flags += -DWITH_LIBJPEG
+endif
+ifneq (,$(findstring opencv,$(external_libraries)))
+  define_flags += -DWITH_OPENCV
+endif
 
-CXXFLAGS += -ffast-math -rdynamic  ${define_flags} -I$(includedir) ${custom_cflags}
-LDFLAGS += ${custom_ld_flags}
 
 ifeq ($(optimize),false)
   external_libraries := $(patsubst argus,argusd,$(external_libraries))
   external_libraries := $(patsubst kutility,kutilityd,$(external_libraries))
   external_libraries := $(patsubst kortex,kortexd,$(external_libraries))
-  external_libraries := $(patsubst kortex-ext-gui,kortex-ext-guid,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-la,kortex-ext-lad,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-3d-classes,kortex-ext-3d-classesd,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-opencv,kortex-ext-opencvd,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-calibration,kortex-ext-calibrationd,$(external_libraries))
   external_libraries := $(patsubst beholder,beholderd,$(external_libraries))
   external_libraries := $(patsubst karpet,karpetd,$(external_libraries))
   external_libraries := $(patsubst daisy,daisyd,$(external_libraries))
@@ -40,8 +50,9 @@ ifeq ($(boost-thread),true)
 endif
 
 ifeq ($(sse),true)
-    CXXFLAGS += -msse -msse2  -msse4.2 -DWITH_SSE
-    CPPFLAGS += -msse -msse2  -msse4.2 -DWITH_SSE
+    define_flags += -DWITH_SSE
+    CXXFLAGS += -msse -msse2 -msse4.2
+    CPPFLAGS += -msse -msse2 -msse4.2
 endif
 
 CXXFLAGS += -fno-strict-aliasing -Wall -fPIC
@@ -54,17 +65,15 @@ ifeq ($(profile),true)
   CXXFLAGS+= -pg
 endif
 
-dbg_flags = -g -DDEBUG -DKORTEX_DEBUG
-opt_flags = -O3 -DHAVE_INLINE -DNDEBUG
-spc_flags = -march=$(platform) -mfpmath=sse
 
 ifeq ($(optimize),true)
-  CXXFLAGS += $(opt_flags)
+  CXXFLAGS += -O3  -DNDEBUG -DHAVE_INLINE
+  spc_flags = -march=$(platform) -mfpmath=sse
   ifeq ($(specialize),true)
      CXXFLAGS += $(spc_flags)
   endif
 else
-  CXXFLAGS += ${dbg_flags}
+  CXXFLAGS += -g -DDEBUG
   parallelize = false
   profile = true
 endif
@@ -86,4 +95,10 @@ ifeq ($(optimize),true)
 else
   state_file = .debug
 endif
+
+#
+## -rdynamic: lets meaningful backtrace messagas.
+#
+CXXFLAGS += -ffast-math -rdynamic  ${define_flags} -I$(includedir) ${custom_cflags}
+LDFLAGS += ${custom_ld_flags}
 
