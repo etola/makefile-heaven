@@ -44,9 +44,9 @@ installation
     'parallelize=true' for enabling openmp support
     'sse=true' for enabling SSE instructions
 
-- add 'define_flags := -DWITH_SOMETHING' to pass a generic flag. Note: Some
+- add 'define_flags := -DWITH_SOMETHING' to pass a generic flag. some
   flags are automatically generated depending on the state of makefile
-  variables. For example, optimize=true will add -DNDEBUG flag and
+  variables. for example, optimize=true will add -DNDEBUG flag and
   optimize=false will add -DDEBUG flag. see the flags.makefile to see what other
   flags are enabled/disabled.
 
@@ -97,16 +97,16 @@ files. they are pretty straightforward if you have some basic makefile experienc
 examples
 ========
 
-http://github.com/etola/kortex library uses this utility. The 'makefile' for the project is
-given below. To point out some details in the  configuration below
+http://github.com/etola/kortex library uses this utility. the 'makefile' for the project is
+given below. to point out some details in the configuration below;
 
 - library name is set as kortex. the generated static lib file will be named
-  libkortexd.a for debug mode and libkortex.a for release mode. Appending a 'd'
+  libkortexd.a for debug mode and libkortex.a for release mode. appending a 'd'
   at the end makes it easy to recursively link to debug-symbol enabled libraries
   so that you can step-into the library files during a debug session. 
 
 - optimize?=false is used. so the library will be compiled with -g -DDEBUG
-  options and will be named libkortexd.a. Also, the debug versions of the
+  options and will be named libkortexd.a. also, the debug versions of the
   'external_libraries' will be linked to the code if they are specified in the
   flags.makefile list. see lines between 22-33 where I declare which libraries
   should be linked in debug mode... you can extend this list with your own
@@ -124,6 +124,7 @@ given below. To point out some details in the  configuration below
   to generate compiler options.
 
 example makefile (comments removed) for the kortex library:
+
 
 ```
 packagename := kortex
