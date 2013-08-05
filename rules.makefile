@@ -239,7 +239,7 @@ revert :
 .PHONY : export
 export :
 	@echo "#automatically generated makefile"         >  $(automakefile)
-	@echo packagename := ${packagename}               >> ${automakefile}
+	@echo packagename := ${packagename_o}             >> ${automakefile}
 	@echo major_version := ${major_version}           >> ${automakefile}
 	@echo minor_version := ${minor_version}           >> ${automakefile}
 	@echo tiny_version  := ${tiny_version}            >> ${automakefile}
@@ -250,8 +250,8 @@ export :
 	@echo installdir := ${installdir}                 >> $(automakefile)
 	@echo external_sources := ${external_sources}     >> ${automakefile}
 	@echo external_libraries := ${external_libraries} >> ${automakefile}
-	@echo libdir := ${libdir}                         >> ${automakefile}
-	@echo srcdir := .                                 >> ${automakefile}
+	@echo libdir := ${libdir_o}                       >> ${automakefile}
+	@echo srcdir := ${srcdir_o}                       >> ${automakefile}
 	@echo includedir:= ${includedir}                  >> ${automakefile}
 	@echo define_flags := ${define_flags}             >> ${automakefile}
 	@echo "#........................................" >> ${automakefile}
@@ -265,8 +265,14 @@ export :
 	@echo specialize := ${specialize}                 >> ${automakefile}
 	@echo platform := ${platform}                     >> ${automakefile}
 	@echo "#........................................" >> ${automakefile}
-	@echo sources := ${sources_list}                  >> ${automakefile}
+	@echo sources := ${sources_list_o}                >> ${automakefile}
 	@echo                                             >> ${automakefile}
+	@echo "#........................................" >> ${automakefile}
+	@echo                                             >> ${automakefile}
+	@echo define_flags    := ${define_flags}          >> ${automakefile}
+	@echo custom_ld_flags := ${custom_ld_flags}       >> ${automakefile}
+	@echo custom_cflags   := ${custom_cflags}         >> ${automakefile}
+	@echo "#........................................" >> ${automakefile}
 	@cat ${MAKEFILE_HEAVEN}/static-variables.makefile >> ${automakefile}
 	@cat ${MAKEFILE_HEAVEN}/flags.makefile            >> ${automakefile}
 	@cat ${MAKEFILE_HEAVEN}/rules.makefile            >> ${automakefile}

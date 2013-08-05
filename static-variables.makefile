@@ -16,6 +16,12 @@ ifeq ($(version),)
  version := $(major_version)"."$(minor_version)"."$(tiny_version)
 endif
 
+# used when exporting standalone makefile
+packagename_o  := $(packagename)
+sources_list_o := ${sources}
+libdir_o       := ${libdir}
+srcdir_o       := ${srcdir}
+
 ifeq ($(optimize),false)
   packagename := $(packagename)d
   outdir := debug/
@@ -37,8 +43,9 @@ dependencies  := $(subst .o,.d,$(objects))
 
 depdir := $(dir ${dependencies})
 
-bindir := ${outdir}'/bin/'
-libdir := ${outdir}${libdir}
+
+bindir        := ${outdir}'/bin/'
+libdir        := ${outdir}${libdir}
 libname       := lib$(packagename)
 libtarget     := $(libdir)/$(libname).a
 libsoname     := $(libname).so.$(major_version)

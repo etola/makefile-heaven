@@ -8,7 +8,7 @@ minor_version := 1
 tiny_version  := 0
 # version := major_version . minor_version # depracated
 author := Engin Tola
-licence := GPL v2.0 or higher distributed by FSF
+licence := see LICENSE file
 #
 # add you cpp cc files here
 #
@@ -18,7 +18,7 @@ sources :=
 #
 installdir := /home/tola/usr
 external_sources :=
-external_libraries := karpet
+external_libraries := kortex
 libdir := .
 srcdir := .
 includedir:= .
@@ -31,8 +31,8 @@ custom_cflags :=
 #
 # optimization & parallelization ?
 #
-optimize ?= true
-parallelize ?= true
+optimize ?= false
+parallelize ?= false
 boost-thread ?= false
 f77 ?= false
 sse ?= true
