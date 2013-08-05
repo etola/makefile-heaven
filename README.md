@@ -4,9 +4,11 @@ makefile-heaven
 a rapid makefile configuration utility
 
 
-This set of files lets the user to quickly setup a makefile based project. The goal is to have a quick way to start a project but still have a human-readable makefile in the end.
+this set of files lets the user to quickly setup a makefile based project. 
+the goal is to have a quick way to start a project but still have a h
+uman-readable makefile in the end.
 
-For this purpose we separate a standard makefile in to 3 separate files:
+for this purpose we separate a standard makefile in to 3 separate files:
 
 
 makefile                  : a very simple file which contains project and author information +
@@ -16,6 +18,7 @@ flags.makefile            : expands true/false flags entered in the simple 'make
                             will be passed to the compiler.
 rules.makefile            : contains all the rules that you may want to do in a project.
 
+
 features
 ========
 - supports only single targets.
@@ -24,6 +27,7 @@ features
   switching between them does not result in full recompile.
 - installation + uninstallation
 - uses pkg-config to include libraries to your project (requires .pc files)
+
 
 installation
 ============
@@ -56,6 +60,7 @@ rules
 
 currently supported rules:
 
+```
 (nothing)   : makes the executable :
 library     : generates the library
 slib        : generates shared library
@@ -80,11 +85,19 @@ rules       : shows this text
 state       : show the configuration state of the package
 export      : export the makefile
 revert      : moves makefile.in to makefile
+```
+
+more details
+============
+
+for more details, just have a look inside the flags/static-variables/rules.makefile 
+files. they are pretty straightforward if you have some basic makefile experience...
+
 
 examples
 ========
 
-[[etola/kortex]] library uses this utility. The 'makefile' for the project is
+http://github.com/etola/kortex library uses this utility. The 'makefile' for the project is
 given below. To point out some details in the  configuration below
 
 - library name is set as kortex. the generated static lib file will be named
@@ -110,8 +123,9 @@ given below. To point out some details in the  configuration below
   /usr/lib/pkgconfig/ directory. Those are the pc files that this utility uses
   to generate compiler options.
 
-example makefile for the kortex library:
+example makefile (comments removed) for the kortex library:
 
+```
 packagename := kortex
 description := base components of the kortex vision library developed by Aurvis R&D
 major_version := 0
@@ -145,3 +159,4 @@ compiler := g++
 include $(MAKEFILE_HEAVEN)/static-variables.makefile
 include $(MAKEFILE_HEAVEN)/flags.makefile
 include $(MAKEFILE_HEAVEN)/rules.makefile
+```
