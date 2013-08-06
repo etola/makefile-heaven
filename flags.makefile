@@ -21,6 +21,7 @@ endif
 
 ifeq ($(optimize),false)
   external_libraries := $(patsubst argus,argusd,$(external_libraries))
+  external_libraries := $(patsubst cosmos,cosmosd,$(external_libraries))
   external_libraries := $(patsubst kutility,kutilityd,$(external_libraries))
   external_libraries := $(patsubst kortex,kortexd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-la,kortex-ext-lad,$(external_libraries))

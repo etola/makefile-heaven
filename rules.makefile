@@ -138,7 +138,7 @@ clear :
 	@rm -rf \#* ${dependencies} *~
 
 .PHONY: install-lib
-install-lib: $(libtarget) tags pkgfile uninstall
+install-lib: $(libtarget) tags pkgfile
 	@echo
 	@echo ------------------ installing library and header files
 	@echo
@@ -155,7 +155,7 @@ install-lib: $(libtarget) tags pkgfile uninstall
 	@cp $(pkgconfigfile) $(installdir)/lib/pkgconfig/
 
 .PHONY: install-slib
-install-slib: $(slib) tags pkgfile uninstall
+install-slib: $(slib) tags pkgfile
 	@echo
 	@echo ------------------ installing library and header files
 	@echo
