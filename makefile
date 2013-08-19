@@ -16,7 +16,7 @@ sources :=
 #
 # output info
 #
-installdir := /home/tola/usr
+installdir := ${HOME}/usr
 external_sources :=
 external_libraries := kortex
 libdir := .
