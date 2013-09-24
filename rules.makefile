@@ -174,7 +174,9 @@ install-slib: $(slib) tags pkgfile
 
 .PHONY: install
 install: $(exetarget) tags
-	@cp -f $(exetarget) $(installdir)/bin
+	@echo $(installdir)/bin
+	@mkdir -p $(installdir)/bin
+	@cp -f $(exetarget) $(installdir)/bin/
 
 .PHONY: install-dev
 install-dev : $(libtarget) pkgfile uninstall

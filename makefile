@@ -32,7 +32,7 @@ custom_cflags :=
 # optimization & parallelization ?
 #
 optimize ?= false
-parallelize ?= false
+parallelize ?= true
 boost-thread ?= false
 f77 ?= false
 sse ?= true
