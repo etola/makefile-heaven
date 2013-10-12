@@ -9,13 +9,14 @@ the goal is to have a quick way to start a project but still have a human-readab
 
 for this purpose we separate a standard makefile into 3 separate files:
 
-
+```
 makefile                  : a very simple file which contains project and author information +
                             some true/false flags to set project options.
 static-variables.makefile : generates variables that will be used in the rules.
 flags.makefile            : expands true/false flags entered in the simple 'makefile' and generates actual flags that
                             will be passed to the compiler.
 rules.makefile            : contains all the rules that you may want to do in a project.
+```
 
 
 features
