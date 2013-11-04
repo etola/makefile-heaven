@@ -5,8 +5,8 @@
 ARFLAGS = ruv
 CTAGFLAGS := -e -R --languages=c++,c
 
-CXXFLAGS += -ffast-math -rdynamic  ${define_flags} -I$(includedir) ${custom_cflags}
-LDFLAGS += ${custom_ld_flags}
+CXXFLAGS += -rdynamic  ${define_flags} -I$(includedir) ${custom_cflags}
+LDFLAGS  += ${custom_ld_flags}
 
 #
 #
@@ -28,7 +28,7 @@ ifeq ($(optimize),false)
   external_libraries := $(patsubst kutility,kutilityd,$(external_libraries))
   external_libraries := $(patsubst kortex,kortexd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-la,kortex-ext-lad,$(external_libraries))
-  external_libraries := $(patsubst kortex-ext-3d-classes,kortex-ext-3d-classesd,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-3d,kortex-ext-3dd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-opencv,kortex-ext-opencvd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-calibration,kortex-ext-calibrationd,$(external_libraries))
   external_libraries := $(patsubst beholder,beholderd,$(external_libraries))

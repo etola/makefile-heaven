@@ -201,7 +201,7 @@ uninstall:
 	@echo ------------------ uninstalling if-installed
 	@echo
 	@rm -rf $(installdir)/include/$(packagename)
-	@rm -f   $(installdir)/$(libtarget)
+	@rm -f   $(installdir)/lib/$(libtarget)
 	@rm -rf $(installdir)/src/$(packagename)
 	@rm -f   $(installdir)/lib/pkgconfig/$(pkgconfigfile)
 	@rm -f   $(installdir)/bin/$(exetarget)
