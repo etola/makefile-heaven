@@ -5,13 +5,10 @@
 ARFLAGS = ruv
 CTAGFLAGS := -e -R --languages=c++,c
 
-CXXFLAGS += -rdynamic  ${define_flags} -I$(includedir) ${custom_cflags}
-LDFLAGS  += ${custom_ld_flags}
-
 #
 #
 #
-ifneq (,$(findstring libpng,$(external_libraries)))
+ifneq (,$(findstring libpng12,$(external_libraries)))
   define_flags += -DWITH_LIBPNG
 endif
 ifneq (,$(findstring libjpeg,$(external_libraries)))
@@ -31,6 +28,8 @@ ifeq ($(optimize),false)
   external_libraries := $(patsubst kortex-ext-3d,kortex-ext-3dd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-opencv,kortex-ext-opencvd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-calibration,kortex-ext-calibrationd,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-geometry,kortex-ext-geometryd,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-advanced,kortex-ext-advancedd,$(external_libraries))
   external_libraries := $(patsubst beholder,beholderd,$(external_libraries))
   external_libraries := $(patsubst karpet,karpetd,$(external_libraries))
   external_libraries := $(patsubst daisy,daisyd,$(external_libraries))
@@ -43,6 +42,13 @@ endif
 ifneq ($(external_libraries),)
  CXXFLAGS += `pkg-config --cflags ${external_libraries}`
  LDFLAGS  += `pkg-config --cflags-only-other --libs ${external_libraries}`
+endif
+
+CXXFLAGS += -rdynamic  ${define_flags} -I$(includedir) ${custom_cflags}
+LDFLAGS  += ${custom_ld_flags}
+
+ifneq (,$(findstring libpng12,$(external_libraries)))
+  LDFLAGS += -lz
 endif
 
 ifeq ($(f77),true)

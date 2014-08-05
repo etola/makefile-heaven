@@ -145,7 +145,7 @@ install-lib: $(libtarget) tags pkgfile
 	@echo ------------------ installing at $(installdir)
 	@echo
 	@mkdir -p $(installdir)/include
-	@rsync -rv --exclude=.svn $(includedir)/* $(installdir)/include/
+	@rsync -rvu --exclude=.svn $(includedir)/* $(installdir)/include/
 	@mkdir -p $(installdir)/lib/pkgconfig
 	@cp -vfr $(libtarget)  $(installdir)/lib
 	@echo
@@ -162,7 +162,7 @@ install-slib: $(slib) tags pkgfile
 	@echo ------------------ installing at $(installdir)
 	@echo
 	@mkdir -p $(installdir)/include
-	@rsync -rv --exclude=.svn $(includedir)/* $(installdir)/include/
+	@rsync -rvu --exclude=.svn $(includedir)/* $(installdir)/include/
 	@mkdir -p $(installdir)/lib/pkgconfig
 	@cp -vfr $(libdir)/*  $(installdir)/lib
 	@echo
@@ -187,11 +187,11 @@ install-dev : $(libtarget) pkgfile uninstall
 	@echo
 	@mkdir -p $(installdir)/include/$(packagename)
 	@echo ------------------ copying .h $(installdir)/include/
-	@rsync -rv --exclude=.svn $(includedir)/* $(installdir)/include/
+	@rsync -rvu --exclude=.svn $(includedir)/* $(installdir)/include/
 	@mkdir -p $(installdir)/lib/pkgconfig
 	@cp -vfR $(libtarget)  $(installdir)/lib                 # copy the static library
 	@mkdir -p $(installdir)/src/$(packagename)                 # create the source directory
-	@rsync -rv --exclude=.svn $(srcdir)/* $(installdir)/src/$(packagename)
+	@rsync -rvu --exclude=.svn $(srcdir)/* $(installdir)/src/$(packagename)
 	@cp -vf makefile $(installdir)/src/$(packagename)
 	@cp $(pkgconfigfile) $(installdir)/lib/pkgconfig/
 

@@ -1,7 +1,7 @@
 #
 # package & author info
 #
-packagename := 
+packagename := test
 description := 
 major_version := 0
 minor_version := 1
@@ -12,7 +12,7 @@ licence := see LICENSE file
 #
 # add you cpp cc files here
 #
-sources := 
+sources := main.cc
 #
 # output info
 #

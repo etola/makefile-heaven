@@ -71,4 +71,3 @@ CXX := ${compiler}
 curpath=`pwd -P`
 
 REQUIRED_DIRS = ${outdir} ${libdir} ${depdir} ${bindir}
-
