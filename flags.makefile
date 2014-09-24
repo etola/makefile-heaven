@@ -26,10 +26,9 @@ ifeq ($(optimize),false)
   external_libraries := $(patsubst karpet,karpetd,$(external_libraries))
   external_libraries := $(patsubst daisy,daisyd,$(external_libraries))
   external_libraries := $(patsubst kortex,kortexd,$(external_libraries))
-  external_libraries := $(patsubst kortex-ext-3d,kortex-ext-3dd,$(external_libraries))
-  external_libraries := $(patsubst kortex-ext-opencv,kortex-ext-opencvd,$(external_libraries))
-  external_libraries := $(patsubst kortex-ext-calibration,kortex-ext-calibrationd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-advanced,kortex-ext-advancedd,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-opencv,kortex-ext-opencvd,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-calib,kortex-ext-calibd,$(external_libraries))
 endif
 
 ifneq ($(external_sources),)
