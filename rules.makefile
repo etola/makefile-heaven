@@ -234,11 +234,11 @@ pkgfile:
 	@echo tagfile=$$\{Path\}/$(tag_file)            >> $(pkgconfigfile)
 	@echo 						>> $(pkgconfigfile)
 
-.PHONY : revert
+.PHONY : revert_makefile
 revert :
 	@mv -f makefile.in makefile
 
-.PHONY : export
+.PHONY : export_makefile
 export :
 	@echo "#automatically generated makefile"         >  $(automakefile)
 	@echo packagename := ${packagename_o}             >> ${automakefile}
