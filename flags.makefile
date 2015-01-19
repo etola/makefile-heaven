@@ -101,9 +101,9 @@ else
   state_file = .debug
 endif
 
+LDFLAGS += ${custom_ld_flags}
+
 #
 ## -rdynamic: lets meaningful backtrace messagas.
 #
 # CXXFLAGS += -ffast-math -rdynamic  ${define_flags} -I$(includedir) ${custom_cflags}
-# LDFLAGS += ${custom_ld_flags}
-

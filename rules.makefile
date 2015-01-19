@@ -227,7 +227,7 @@ pkgfile:
 	@echo Name: "$(packagename)" 			>> $(pkgconfigfile)
 	@echo Description: "$(description)" 		>> $(pkgconfigfile)
 	@echo Version: "$(version)"                     >> $(pkgconfigfile)
-	@echo Libs: -L$$\{libdir} -l$(packagename) ${custom_ld_flags}	>> $(pkgconfigfile)
+	@echo Libs: -L$$\{libdir} -l$(packagename) ${LDFLAGS}	>> $(pkgconfigfile)
 	@echo Cflags: -I$$\{includedir\} ${define_flags} ${custom_cflags}  >> $(pkgconfigfile)
 	@echo Requires: ${external_libraries}           >> $(pkgconfigfile)
 	@echo Path=$(curpath)                           >> $(pkgconfigfile)
