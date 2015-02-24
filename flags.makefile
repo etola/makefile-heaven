@@ -17,7 +17,12 @@ endif
 ifneq (,$(findstring opencv,$(external_libraries)))
   define_flags += -DWITH_OPENCV
 endif
-
+ifneq (,$(findstring blas,$(external_libraries)))
+  define_flags += -DWITH_LAPACK
+endif
+ifneq (,$(findstring eigen3,$(external_libraries)))
+  define_flags += -DWITH_EIGEN
+endif
 
 ifeq ($(optimize),false)
   external_libraries := $(patsubst argus,argusd,$(external_libraries))
