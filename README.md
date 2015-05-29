@@ -7,7 +7,7 @@ a rapid makefile configuration utility
 this set of files lets the user to quickly setup a makefile based project. 
 the goal is to have a quick way to start a project but still have a human-readable makefile in the end.
 
-for this purpose we separate a standard makefile into 3 separate files:
+for this purpose we separate a standard makefile into 3 distinct files:
 
 ```
 makefile                  : a very simple file which contains project and author information +
