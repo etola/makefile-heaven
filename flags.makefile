@@ -44,6 +44,12 @@ ifneq ($(external_libraries),)
  LDFLAGS  += `pkg-config --cflags-only-other --libs ${external_libraries}`
 endif
 
+ifneq ($(external_libraries_static),)
+ CXXFLAGS += `pkg-config --cflags ${external_libraries_static}`
+ LDFLAGS  += `pkg-config --static --cflags-only-other --libs ${external_libraries_static}`
+endif
+
+
 CXXFLAGS += -rdynamic  ${define_flags} -I$(includedir) ${custom_cflags}
 LDFLAGS  += ${custom_ld_flags}
 

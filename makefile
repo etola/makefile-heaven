@@ -19,6 +19,7 @@ sources := main.cc
 installdir := ${HOME}/usr
 external_sources :=
 external_libraries := kortex
+external_libraries_static :=
 libdir := .
 srcdir := .
 includedir:= .
