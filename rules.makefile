@@ -239,7 +239,7 @@ revert :
 	@mv -f makefile.in makefile
 
 .PHONY : export_makefile
-export :
+export_makefile :
 	@echo "#automatically generated makefile"         >  $(automakefile)
 	@echo packagename := ${packagename_o}             >> ${automakefile}
 	@echo major_version := ${major_version}           >> ${automakefile}
@@ -323,30 +323,30 @@ rules :
 	@echo
 	@echo ------------------ legitimate rules
 	@echo
-	@echo "(nothing)   : makes the executable : "
-	@echo "library     : generates the library"
-	@echo "slib        : generates shared library"
-	@echo "install-slib: installs shared library"
-	@echo "tags        : generates etags files"
-	@echo "dox         : generates the doxygen documentation if Doxyfile exists"
-	@echo "clear       : cleans up *~ #* and dependencies"
-	@echo "clean       : cleans up .o lib and exe files"
-	@echo "cleanaux    : cleans auxilary files: *.o *.d"
-	@echo "cleandep    : cleans up the dependency files"
-	@echo "cleandox    : cleans up the documentation"
-	@echo "cleandist   : cleans everything except source+headers"
-	@echo "install     : installs the executable"
-	@echo "install-lib : installs the library"
-	@echo "install-dev : installs the library along with documentation files"
-	@echo "uninstall   : uninstalls the library"
-	@echo "pkgfile     : generates the pkg-config file"
-	@echo "flags       : shows the flags that will be used"
-	@echo "gflat       : shows gprof profiler flat view result"
-	@echo "gcall       : shows gprof profiler call graph view result"
-	@echo "rules       : shows this text"
-	@echo "state       : show the configuration state of the package"
-	@echo "export      : export the makefile"
-	@echo "revert      : moves makefile.in to makefile"
+	@echo "(nothing)	: makes the executable : "
+	@echo "library		: generates the library"
+	@echo "slib		: generates shared library"
+	@echo "install-slib	: installs shared library"
+	@echo "tags		: generates etags files"
+	@echo "dox		: generates the doxygen documentation if Doxyfile exists"
+	@echo "clear		: cleans up *~ #* and dependencies"
+	@echo "clean		: cleans up .o lib and exe files"
+	@echo "cleanaux		: cleans auxilary files: *.o *.d"
+	@echo "cleandep		: cleans up the dependency files"
+	@echo "cleandox		: cleans up the documentation"
+	@echo "cleandist	: cleans everything except source+headers"
+	@echo "install		: installs the executable"
+	@echo "install-lib	: installs the library"
+	@echo "install-dev	: installs the library along with documentation files"
+	@echo "uninstall	: uninstalls the library"
+	@echo "pkgfile		: generates the pkg-config file"
+	@echo "flags		: shows the flags that will be used"
+	@echo "gflat		: shows gprof profiler flat view result"
+	@echo "gcall		: shows gprof profiler call graph view result"
+	@echo "rules		: shows this text"
+	@echo "state		: show the configuration state of the package"
+	@echo "revert		: moves makefile.in to makefile"
+	@echo "export_makefile	: export the makefile"
 	@echo
 
 ${outdir}%.d : ${srcdir}%.c
