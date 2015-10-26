@@ -69,7 +69,7 @@ tags        : generates etags files
 dox         : generates the doxygen documentation if Doxyfile exists
 clear       : cleans up *~ #* and dependencies
 clean       : cleans up .o lib and exe files
-cleanaux    : cleans auxilary files: *.o *.d
+cleanaux    : cleans auxiliary files: *.o *.d
 cleandep    : cleans up the dependency files
 cleandox    : cleans up the documentation
 cleandist   : cleans everything except source+headers
