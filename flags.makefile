@@ -33,6 +33,7 @@ ifeq ($(optimize),false)
   external_libraries := $(patsubst kortex,kortexd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-advanced,kortex-ext-advancedd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-opencv,kortex-ext-opencvd,$(external_libraries))
+  external_libraries := $(patsubst ceres,ceres-debug,$(external_libraries))
 endif
 
 ifneq ($(external_sources),)
