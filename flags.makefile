@@ -34,7 +34,10 @@ ifeq ($(optimize),false)
   external_libraries := $(patsubst kortex-ext-advanced,kortex-ext-advancedd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-opencv,kortex-ext-opencvd,$(external_libraries))
   external_libraries := $(patsubst ceres,ceres-debug,$(external_libraries))
+  external_libraries := $(patsubst coldet,coldetd,$(external_libraries))
 endif
+
+CXXFLAGS += ${define_flags} -I$(includedir)
 
 ifneq ($(external_sources),)
  CXXFLAGS += `pkg-config --cflags ${external_sources}`
@@ -51,7 +54,10 @@ ifneq ($(external_libraries_static),)
 endif
 
 
-CXXFLAGS += -rdynamic  ${define_flags} -I$(includedir) ${custom_cflags}
+# rdynamic lets to have backtraces
+CXXFLAGS += -rdynamic
+
+CXXFLAGS += ${custom_cflags}
 LDFLAGS  += ${custom_ld_flags}
 
 ifneq (,$(findstring libpng12,$(external_libraries)))
@@ -112,8 +118,6 @@ ifeq ($(optimize),true)
 else
   state_file = .debug
 endif
-
-LDFLAGS += ${custom_ld_flags}
 
 #
 ## -rdynamic: lets meaningful backtrace messagas.
