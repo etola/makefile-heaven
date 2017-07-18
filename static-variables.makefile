@@ -22,12 +22,28 @@ sources_list_o := ${sources}
 libdir_o       := ${libdir}
 srcdir_o       := ${srcdir}
 
+#
+path_after_home = $(shell echo ${PWD} | cut -d'/' -f4-)
+ifneq ($(main_build_dir),)
+  build_dir := ${main_build_dir}${path_after_home}
+else
+  build_dir := ./
+endif
+
+
 ifeq ($(optimize),false)
   packagename := $(packagename)d
-  outdir := debug/
+  outdir := ${build_dir}/debug/
+  l_outdir := debug
 else
-  outdir := release/
+  outdir := ${build_dir}/release/
+  l_outdir := release
 endif
+
+ifneq (${build_dir},./)
+  _LINK_STATE := $(shell ln -s ${outdir} ${l_outdir})
+endif
+
 
 srcdir := ${srcdir}/
 
@@ -71,3 +87,4 @@ CXX := ${compiler}
 curpath=`pwd -P`
 
 REQUIRED_DIRS = ${outdir} ${libdir} ${depdir} ${bindir}
+

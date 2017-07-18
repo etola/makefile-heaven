@@ -20,6 +20,9 @@ endif
 ifneq (,$(findstring blas,$(external_libraries)))
   define_flags += -DWITH_LAPACK
 endif
+ifneq (,$(findstring lapack,$(external_libraries)))
+  define_flags += -DWITH_LAPACK
+endif
 ifneq (,$(findstring eigen3,$(external_libraries)))
   define_flags += -DWITH_EIGEN
 endif
@@ -33,9 +36,12 @@ ifeq ($(optimize),false)
   external_libraries := $(patsubst kortex,kortexd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-advanced,kortex-ext-advancedd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-opencv,kortex-ext-opencvd,$(external_libraries))
-  external_libraries := $(patsubst ceres,ceres-debug,$(external_libraries))
+  external_libraries := $(patsubst ceres,ceres,$(external_libraries))
   external_libraries := $(patsubst coldet,coldetd,$(external_libraries))
 endif
+
+# makes gcc stop at the first error
+# CXXFLAGS += -Wfatal-errors
 
 CXXFLAGS += ${define_flags} -I$(includedir)
 

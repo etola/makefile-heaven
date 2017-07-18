@@ -16,6 +16,7 @@ sources := main.cc
 #
 # output info
 #
+main_build_dir :=
 installdir := ${HOME}/usr
 external_sources :=
 external_libraries := kortex

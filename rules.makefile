@@ -4,6 +4,7 @@
 
 _MKDIRS := $(shell mkdir -p ${REQUIRED_DIRS})
 
+
 .PHONY       : $(exetarget)
 $(exetarget) : ${objects}
 	@echo compiler path = ${compiler}
@@ -27,6 +28,9 @@ flags :
 	@echo
 	@echo dependencies = ${dependencies}
 	@echo depdir = ${depdir}
+	@echo curpath = ${curpath}
+	@echo build_dir = ${build_dir}
+	@echo l_out = ${_LINK_STATE}
 
 .PHONY : internal_var
 internal_var :
