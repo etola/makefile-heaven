@@ -41,7 +41,8 @@ else
 endif
 
 ifneq (${build_dir},./)
-  _LINK_STATE := $(shell ln -s ${outdir} ${l_outdir})
+RM_STATE    := $(shell rm ${l_outdir} )
+_LINK_STATE := $(shell ln -sf ${outdir} ${l_outdir})
 endif
 
 
