@@ -61,7 +61,7 @@ dependencies  := $(subst .o,.d,$(objects))
 depdir := $(dir ${dependencies})
 
 
-bindir        := ${outdir}'/bin/'
+bindir        := ${outdir}bin/
 libdir        := ${outdir}${libdir}
 libname       := lib$(packagename)
 libtarget     := $(libdir)/$(libname).a
