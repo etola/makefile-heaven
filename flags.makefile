@@ -34,14 +34,20 @@ ifeq ($(optimize),false)
   external_libraries := $(patsubst karpet,karpetd,$(external_libraries))
   external_libraries := $(patsubst daisy,daisyd,$(external_libraries))
   external_libraries := $(patsubst kortex,kortexd,$(external_libraries))
+  external_libraries := $(patsubst mrf,mrfd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-advanced,kortex-ext-advancedd,$(external_libraries))
   external_libraries := $(patsubst kortex-ext-opencv,kortex-ext-opencvd,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-dronedeploy,kortex-ext-dronedeployd,$(external_libraries))
+  external_libraries := $(patsubst kortex-ext-fusion,kortex-ext-fusiond,$(external_libraries))
+  external_libraries := $(patsubst kortex-shared,kortex-sharedd,$(external_libraries))
+external_libraries := $(patsubst strekker,strekkerd,$(external_libraries))
   external_libraries := $(patsubst ceres,ceres,$(external_libraries))
   external_libraries := $(patsubst coldet,coldetd,$(external_libraries))
 endif
 
 # makes gcc stop at the first error
 # CXXFLAGS += -Wfatal-errors
+CXXFLAGS += -fmax-errors=5
 
 CXXFLAGS += ${define_flags} -I$(includedir)
 

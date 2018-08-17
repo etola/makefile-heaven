@@ -390,5 +390,3 @@ ${outdir}%.o : ${srcdir}%.cc
 ifneq "$(MAKECMDGOALS)" "clean"
   include $(dependencies)
 endif
-
-
