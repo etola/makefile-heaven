@@ -25,7 +25,7 @@ srcdir_o       := ${srcdir}
 #
 path_after_home = $(shell echo ${PWD} | cut -d'/' -f4-)
 ifneq ($(main_build_dir),)
-  build_dir := ${main_build_dir}${path_after_home}
+  build_dir := ${main_build_dir}'/'
 else
   build_dir := ./
 endif
